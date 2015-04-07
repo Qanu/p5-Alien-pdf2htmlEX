@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CURDIR=`dirname "$0"`
+cd "$CURDIR"
+SHA="5e11cc4c433e18683adb835090547b5738b88684"
+TARGET_PACKAGE="pdf2htmlEX-${SHA}.zip"
+TARGET_DIR="../inc/" # relative to $CURDIR
+mkdir -p $TARGET_DIR
+wget -O $TARGET_DIR/$TARGET_PACKAGE -c "https://github.com/coolwanglu/pdf2htmlEX/archive/${SHA}.zip"
