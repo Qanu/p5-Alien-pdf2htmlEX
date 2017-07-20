@@ -1,0 +1,17 @@
+use alienfile;
+
+# http://coolwanglu.github.io/pdf2htmlEX/
+share {
+	plugin Download => (
+		url => 'https://github.com/coolwanglu/pdf2htmlEX/releases',
+		version => qr/v([\w\.]+)\.tar\.gz/,
+	);
+
+	plugin Extract => 'tar.gz';
+
+	build [
+		[ 'cmake', 'CMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}', '.' ],
+		[ '%{make}' ],
+		[ '%{make}', 'install' ],
+	]
+};

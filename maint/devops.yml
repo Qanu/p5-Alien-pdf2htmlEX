@@ -1,0 +1,14 @@
+---
+native:
+  debian:
+    packages:
+      - cmake
+      - libfontforge-dev
+      - libpoppler-dev
+      - libpoppler-private-dev
+  macos-homebrew:
+    packages:
+      - cmake
+  msys2-mingw64:
+    packages:
+      - mingw-w64-x86_64-cmake
