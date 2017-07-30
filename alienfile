@@ -21,8 +21,17 @@ share {
 
 	plugin Extract => 'tar.gz';
 
+	patch [
+		# Patch to allow the data directory to point to the final
+		# location of the share dir.
+		[ $^X, '-pi', '-e', 's/\@CMAKE_INSTALL_PREFIX\@/\@CMAKE_RUNTIME_PREFIX\@/g',
+			qw(src/pdf2htmlEX-config.h.in pdf2htmlEX.1.in) ]
+	];
+
 	build [
-		[ 'cmake', '-DCMAKE_INSTALL_PREFIX:PATH=%{.runtime.prefix}', '.' ],
+		[ 'cmake',
+			'-DCMAKE_RUNTIME_PREFIX:PATH=%{.runtime.prefix}',
+			'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}', '.' ],
 		[ '%{make}' ],
 		[ '%{make}', 'install' ],
 	]
