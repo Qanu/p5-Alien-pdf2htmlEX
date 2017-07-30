@@ -1,19 +1,15 @@
 use alienfile;
 
-use Capture::Tiny;
-# Probe::CommandLine uses capture() and only checks STDOUT and not STDERR, but
-# `pdf2htmlEX` output is on STDERR.
-no warnings 'redefine';
-*Capture::Tiny::capture = sub (&;@) {
-	my ($merged, @result) = &Capture::Tiny::capture_merged(@_);
-	($merged, $merged, @result);
+configure {
+	requires 'Alien::Build' => 0.77;
 };
 
+# Probe::CommandLine: `pdf2htmlEX` output is only on STDERR
 plugin 'Probe::CommandLine' => (
-	command => 'pdf2htmlEX',
-	args    => [ '--version' ],
-	match   => qr/pdf2htmlEX/,
-	version => qr/pdf2htmlEX version ([0-9\.]+)/,
+	command        => 'pdf2htmlEX',
+	args           => [ '--version' ],
+	match_stderr   => qr/pdf2htmlEX/,
+	version_stderr => qr/pdf2htmlEX version ([0-9\.]+)/,
 );
 
 # http://coolwanglu.github.io/pdf2htmlEX/
