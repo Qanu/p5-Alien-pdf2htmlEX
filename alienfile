@@ -1,5 +1,21 @@
 use alienfile;
 
+use Capture::Tiny;
+# Probe::CommandLine uses capture() and only checks STDOUT and not STDERR, but
+# `pdf2htmlEX` output is on STDERR.
+no warnings 'redefine';
+*Capture::Tiny::capture = sub (&;@) {
+	my ($merged, @result) = &Capture::Tiny::capture_merged(@_);
+	($merged, $merged, @result);
+};
+
+plugin 'Probe::CommandLine' => (
+	command => 'pdf2htmlEX',
+	args    => [ '--version' ],
+	match   => qr/pdf2htmlEX/,
+	version => qr/pdf2htmlEX version ([0-9\.]+)/,
+);
+
 # http://coolwanglu.github.io/pdf2htmlEX/
 share {
 	plugin Download => (
@@ -10,7 +26,7 @@ share {
 	plugin Extract => 'tar.gz';
 
 	build [
-		[ 'cmake', 'CMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}', '.' ],
+		[ 'cmake', '-DCMAKE_INSTALL_PREFIX:PATH=%{.runtime.prefix}', '.' ],
 		[ '%{make}' ],
 		[ '%{make}', 'install' ],
 	]
