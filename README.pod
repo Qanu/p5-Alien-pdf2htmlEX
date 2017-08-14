@@ -10,6 +10,13 @@ Alien::pdf2htmlEX - Alien package for the pdf2htmlEX PDF-to-HTML conversion tool
 
 version 0.001
 
+=head1 METHODS
+
+=head2 pdf2htmlEX_path
+
+Returns a C<Str> which contains the absolute path
+to the C<pdf2htmlEX> binary.
+
 =head1 AUTHOR
 
 Zakariyya Mughal <zmughal@cpan.org>

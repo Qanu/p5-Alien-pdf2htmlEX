@@ -4,6 +4,10 @@ configure {
 	requires 'Alien::Build' => 0.77;
 };
 
+use Env qw(@PKG_CONFIG_PATH);
+requires 'Alien::Poppler';
+requires 'Alien::FontForge';
+
 # Probe::CommandLine: `pdf2htmlEX` output is only on STDERR
 plugin 'Probe::CommandLine' => (
 	command        => 'pdf2htmlEX',
@@ -24,10 +28,17 @@ share {
 	patch [
 		# Patch to allow the data directory to point to the final
 		# location of the share dir.
-		[ $^X, '-pi', '-e', 's/\@CMAKE_INSTALL_PREFIX\@/\@CMAKE_RUNTIME_PREFIX\@/g',
+		[ 'perl', '-pi', '-e', 's/\@CMAKE_INSTALL_PREFIX\@/\@CMAKE_RUNTIME_PREFIX\@/g',
 			qw(src/pdf2htmlEX-config.h.in pdf2htmlEX.1.in) ]
 	];
 
+	# warn is fine here because this is part of configure-time
+	eval {
+		require Alien::FontForge;
+		require Alien::Poppler;
+		push @PKG_CONFIG_PATH, Alien::FontForge->pkg_config_path;
+		push @PKG_CONFIG_PATH, Alien::Poppler->pkg_config_path;
+	} or warn "Unable to add to \$PKG_CONFIG_PATH (@PKG_CONFIG_PATH): $@";
 	build [
 		[ 'cmake',
 			'-DCMAKE_RUNTIME_PREFIX:PATH=%{.runtime.prefix}',
