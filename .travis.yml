@@ -8,9 +8,7 @@ addons:
   apt:
     packages:
       - cmake
-      - libfontforge-dev
-      - libpoppler-dev
-      - libpoppler-private-dev
+      - libfontforge-dev  # for Alien::FontForge
       - aspell     # for dzil Test::PodSpelling
       - aspell-en  # for dzil Test::PodSpelling
 matrix:
