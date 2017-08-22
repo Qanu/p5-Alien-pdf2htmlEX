@@ -24,3 +24,9 @@ sub pdf2htmlEX_path {
 
 
 1;
+__END__
+=head1 SEE ALSO
+
+L<pdf2htmlEX|http://coolwanglu.github.io/pdf2htmlEX/>
+
+L<Repository information|http://project-renard.github.io/doc/development/repo/p5-Alien-pdf2htmlEX/>
