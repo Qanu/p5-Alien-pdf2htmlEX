@@ -8,6 +8,7 @@ use Env qw(@PKG_CONFIG_PATH);
 requires 'Alien::Poppler';
 requires 'Alien::FontForge';
 requires 'Path::Tiny' => 0;
+requires 'Alien::gmake';
 
 # Probe::CommandLine: `pdf2htmlEX` output is only on STDERR
 plugin 'Probe::CommandLine' => (
@@ -47,10 +48,10 @@ share {
 		push @PKG_CONFIG_PATH, Alien::Poppler->pkg_config_path;
 	} or warn "Unable to add to \$PKG_CONFIG_PATH (@PKG_CONFIG_PATH): $@";
 	build [
-		[ 'cmake',
+		[ 'cmake', qw(-G), 'Unix Makefiles',
 			'-DCMAKE_RUNTIME_PREFIX:PATH=%{.runtime.prefix}',
 			'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}', '.' ],
-		[ '%{make}' ],
-		[ '%{make}', 'install' ],
+		[ '%{gmake}' ],
+		[ '%{gmake}', 'install' ],
 	]
 };
