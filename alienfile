@@ -7,6 +7,7 @@ configure {
 use Env qw(@PKG_CONFIG_PATH);
 requires 'Alien::Poppler';
 requires 'Alien::FontForge';
+requires 'Path::Tiny' => 0;
 
 # Probe::CommandLine: `pdf2htmlEX` output is only on STDERR
 plugin 'Probe::CommandLine' => (
@@ -25,12 +26,18 @@ share {
 
 	plugin Extract => 'tar.gz';
 
-	patch [
-		# Patch to allow the data directory to point to the final
-		# location of the share dir.
-		[ 'perl', '-pi', '-e', 's/\@CMAKE_INSTALL_PREFIX\@/\@CMAKE_RUNTIME_PREFIX\@/g',
-			qw(src/pdf2htmlEX-config.h.in pdf2htmlEX.1.in) ]
-	];
+	patch sub {
+		my @files = map { Path::Tiny->new($_) }
+			qw(src/pdf2htmlEX-config.h.in pdf2htmlEX.1.in);
+
+		for my $file (@files) {
+			# Patch to allow the data directory to point to the final
+			# location of the share dir.
+			$file->edit_lines(sub {
+				s/\@CMAKE_INSTALL_PREFIX\@/\@CMAKE_RUNTIME_PREFIX\@/g;
+			});
+		}
+	};
 
 	# warn is fine here because this is part of configure-time
 	eval {
