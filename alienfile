@@ -49,6 +49,7 @@ share {
 	} or warn "Unable to add to \$PKG_CONFIG_PATH (@PKG_CONFIG_PATH): $@";
 	build [
 		[ 'cmake', qw(-G), 'Unix Makefiles',
+			exists $ENV{MSYSTEM} ? ('-DPDF2HTMLEX_LIBS=-lintl') : (),
 			'-DCMAKE_RUNTIME_PREFIX:PATH=%{.runtime.prefix}',
 			'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}', '.' ],
 		[ '%{gmake}' ],
