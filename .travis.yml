@@ -46,6 +46,6 @@ matrix:
   allow_failures:
     - perl: blead       # ignore failures for blead perl
 before_install:
-  - export DEVOPS_BRANCH="master"
+  - export DEVOPS_BRANCH="48-helper-external-repo-outside-build"
   - export PERL_CPANM_OPT="$PERL_CPANM_OPT --skip-satisfied"; echo $PERL_CPANM_OPT
   - eval "$(curl https://raw.githubusercontent.com/project-renard/devops/$DEVOPS_BRANCH/script/helper.pl | perl -- | awk '/^#START/,/^#END/ { print > "/dev/stdout"; next } { print > "/dev/stderr"}' )"
