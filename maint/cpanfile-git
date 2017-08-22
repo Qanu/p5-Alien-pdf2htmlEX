@@ -3,4 +3,4 @@ requires 'Alien::Poppler',
 	branch => 'master';
 requires 'Alien::FontForge',
 	git => 'https://github.com/project-renard/p5-Alien-FontForge.git',
-	branch => 'patch-splinefont-locale';
+	branch => 'master';
