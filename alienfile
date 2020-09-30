@@ -21,7 +21,7 @@ plugin 'Probe::CommandLine' => (
 # http://coolwanglu.github.io/pdf2htmlEX/
 share {
 	plugin Download => (
-		url => 'https://github.com/coolwanglu/pdf2htmlEX/releases',
+		url => 'https://github.com/pdf2htmlEX/pdf2htmlEX/releases',
 		version => qr/v([\w\.]+)\.tar\.gz/,
 	);
 
