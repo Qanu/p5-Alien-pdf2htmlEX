@@ -29,4 +29,4 @@ __END__
 
 L<pdf2htmlEX|http://coolwanglu.github.io/pdf2htmlEX/>
 
-L<Repository information|http://project-renard.github.io/doc/development/repo/p5-Alien-pdf2htmlEX/>
+
